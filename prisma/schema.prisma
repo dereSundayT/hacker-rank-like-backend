@@ -32,3 +32,14 @@ model User {
   // realtionship
   @@map(name: "users")
 }
+
+model ErrorLog {
+  id         Int      @id @default(autoincrement())
+  title      String?  @db.LongText
+  message    String?  @db.LongText
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  /// table name
+  @@map("error_logs")
+}
