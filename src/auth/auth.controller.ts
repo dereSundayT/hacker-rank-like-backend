@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Res, UseGuards } from "@nestjs/common";
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { handleResponse, logError } from '../_utils/helper.utils';
@@ -9,6 +9,7 @@ import { GetUserDetaillsDecorator } from './decorators/get-user-detaills.decorat
 import { UserModel } from '../_utils/model';
 import { msgs } from '../_utils/msg.utils';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -20,7 +21,7 @@ export class AuthController {
    * @param res
    * @param createUserDto
    */
-  @ApiOperation({ description: 'user register' })
+  @ApiOperation({ description: 'user registration' })
   @Post('register')
   async registerUser(
     @Res() res: Response,
@@ -33,7 +34,7 @@ export class AuthController {
       return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
     } catch (e: any) {
       await logError(e);
-      return handleResponse(res, null, 'something went wrong', 400, false);
+      return handleResponse(res, null, msgs.general_err, 400, false);
     }
   }
 
@@ -52,7 +53,7 @@ export class AuthController {
       return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
     } catch (e: any) {
       await logError(e);
-      return handleResponse(res, null, 'something went wrong', 400, false);
+      return handleResponse(res, null, msgs.general_err, 400, false);
     }
   }
 
@@ -72,6 +73,32 @@ export class AuthController {
     try {
       //prettier-ignore
       const respData = await this.authService.getUserProfileService(user.email);
+      //prettier-ignore
+      return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
+    } catch (e: any) {
+      await logError(e);
+      return handleResponse(res, null, msgs.general_err, 400, false);
+    }
+  }
+
+  /**
+   * update user profile
+   * @param res
+   * @param updateUserDto
+   * @param user
+   */
+  @ApiBearerAuth()
+  @ApiOperation({ description: 'Update User Profile' })
+  @UseGuards(AuthGuard)
+  @Patch('profile')
+  async updateUserProfile(
+    @Res() res: Response,
+    @Body() updateUserDto: UpdateUserDto,
+    @GetUserDetaillsDecorator() user: UserModel,
+  ) {
+    try {
+      //prettier-ignore
+      const respData = await this.authService.updateUserDetailService(updateUserDto,user.email);
       //prettier-ignore
       return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
     } catch (e: any) {

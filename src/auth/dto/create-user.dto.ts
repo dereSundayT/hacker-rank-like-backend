@@ -18,7 +18,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   first_name: string;
 
-  @ApiProperty({ default: 'Doe', description: '' })
+  @ApiProperty({ default: '', description: '' })
   @IsString()
   @IsNotEmpty()
   last_name: string;

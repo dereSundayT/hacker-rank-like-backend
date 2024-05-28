@@ -6,6 +6,7 @@ import { compareData, logError } from '../_utils/helper.utils';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { msgs } from '../_utils/msg.utils';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,12 +26,12 @@ export class AuthService {
       return await this.userService.createUserService(createUserDto);
     } catch (e: any) {
       await logError(e);
-      return { data: null, status: false, message: 'something went wrong' };
+      return { data: null, status: false, message: msgs.general_err };
     }
   };
 
   /**
-   * register user service
+   * authenticate user service
    * @param loginUserDto
    */
   authenticateUserService = async (
@@ -60,12 +61,12 @@ export class AuthService {
           //prettier-ignore
           return { data: {access_token}, status: true, message: 'user login successfully' };
         } else {
-          return { data: null, status: false, message: 'invalid credentials' };
+          return { data: null, status: false, message: msgs.invalid_cred };
         }
       }
     } catch (e: any) {
       await logError(e);
-      return { data: null, status: false, message: 'something went wrong' };
+      return { data: null, status: false, message: msgs.general_err };
     }
   };
 
@@ -85,7 +86,7 @@ export class AuthService {
         return {
           data: result,
           status: true,
-          message: 'user profile fetched successfully',
+          message: msgs.user_fetched,
         };
       }
       return {
@@ -93,6 +94,21 @@ export class AuthService {
         data: null,
         message: msgs.req_failed,
       };
+    } catch (e: any) {
+      await logError(e);
+      return { data: null, status: false, message: msgs.general_err };
+    }
+  };
+
+  /**
+   * update user profile
+   * @param updateUserDto
+   * @param email
+   */
+  //prettier-ignore
+  updateUserDetailService = async (updateUserDto:UpdateUserDto,email:string): Promise<ServiceResponseModel> => {
+    try {
+      return await this.userService.updateUserService(updateUserDto,email);
     } catch (e: any) {
       await logError(e);
       return { data: null, status: false, message: msgs.general_err };
