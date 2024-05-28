@@ -9,6 +9,11 @@ Nest.js or ExpressJs or any other framework (or framework of your choice)
 • APIs and 3rd party dependencies – Judge0, Monaco Editor.
 • Deployment: Heroku, Vercel, Github for git control
 
+# Dependencies Used
+   - Dependencies
+     - @nestjs/config : 
+     - @nestjs/swagger : 
+     - prisma :
 Backend Core Module
   - auth
     - register [email,name,password,profile image]
