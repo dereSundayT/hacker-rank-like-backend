@@ -1,6 +1,7 @@
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
+import { User } from "@prisma/client";
 
 //prettier-ignore
 export const handleResponse = async (res: Response, data: any, message: string, statusCode: number, isSuccess: boolean,) => {
@@ -38,4 +39,10 @@ export const logError = async (error: any) => {
  */
 export const hashData = async (content: string) => {
   return await bcrypt.hash(content, 12);
+};
+export const compareData = async (
+  content: string,
+  hash: string,
+): Promise<boolean> => {
+  return await bcrypt.compare(content, hash);
 };

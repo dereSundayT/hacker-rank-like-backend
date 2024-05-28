@@ -17,6 +17,7 @@ npx prisma migrate dev --name db_init
      - prisma :
      - npm i --save class-validator class-transformer
      - bcrypt
+     -  npm install --save @nestjs/jwt
 Backend Core Module
   - auth
     - register [email,name,password,profile image]

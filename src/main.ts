@@ -1,12 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { BadRequestException, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 const PORT = process.env.PORT ?? 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  //Cors
+  const allowedOrigins = ['*'];
+  const corsOptions: CorsOptions = {
+    origin: allowedOrigins,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders: ['*'],
+  };
+  app.enableCors(corsOptions);
+  //End of Cors
   //::: Set Global Prefix
   app.setGlobalPrefix('api/v1', { exclude: ['/'] });
 
