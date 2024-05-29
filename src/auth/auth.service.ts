@@ -56,6 +56,7 @@ export class AuthService {
             email: user.email,
             first_name: user.first_name,
             last_name: user.last_name,
+            role: user.user_role,
           };
           const access_token = await this.jwtService.signAsync(payload);
           //prettier-ignore
