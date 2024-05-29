@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model ErrorLog {
   id         Int      @id @default(autoincrement())
-  title      String?  @db.LongText
-  message    String?  @db.LongText
+  title      String?  @db.Text
+  message    String?  @db.Text
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -43,8 +43,8 @@ model User {
 model Test {
   id Int @id @default(autoincrement())
 
-  question    String @db.MediumText
-  description String @db.LongText
+  question    String @db.Text
+  description String @db.Text
 
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
@@ -76,9 +76,9 @@ model UserTestDetail {
   status    String
   is_passed Boolean @default(false)
 
-  user_input  String @db.LongText
-  user_output String @db.LongText
-  result      String @db.LongText
+  user_input  String @db.Text
+  user_output String @db.Text
+  result      String @db.Text
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
