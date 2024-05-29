@@ -1,3 +1,6 @@
+
+npx prisma migrate dev --name db_init
+
 Problem Statement:
 You need to create a simple application that allows the user to complete/solve
 programming tests/problems just like LeetCode or Hackerrank.
@@ -28,19 +31,25 @@ Backend Core Module
   - admin
 
 Frontend
+   - profile
+        - register
+        - login 
+        - get user profile
+        - update user profile
+     - test management 
+       -  List/Display any 2 tests/problems for attempting/solving of your choice from hackerrank, leetcode to user. (Show attempt option to solve the problem alongside tests)
+       -  List Previous attempts/results 
+             - Show completed (on success)/attempted status (on fail), result status(Success/Unsuccessful) if previously test has been attempted.
+             - View previous result/input/output on click see test details.
+   - Admin Panel
+
 
 Technical Requirements
-1) User panel to fill/complete tests.
-   Profile – with user details – email, name, profile image
-   Registration with above details
 2) List of tests –
-   • List/Display any 2 tests/problems for attempting/solving of your choice from
-   hackerrank, leetcode to user.
-   • Show attempt option to solve the problem alongside tests
-   List Previous attempts/results
-   • Show completed (on success)/attempted status (on fail), result status
-   (Sucess/Unsuccessful) if previously test has been attempted.
-   • View previous result/input/output on click see test details.
+   
+ 
+  
+
 3) Code Editor and Compiler
    • Use Monaco + Guide0 API to build code editor and compiler
    • Users can input code and run/emulate code.
@@ -49,8 +58,7 @@ Technical Requirements
    • And result of this attempt success/fail is also displayed
    • Submit code, result to list of attempts option.
    • Store code input, output and result in mysql.
-   You can reference for your help: www.freecodecamp.org/news/how-to-build-react-
-   based-code-editor/
+   You can reference for your help: www.freecodecamp.org/news/how-to-build-react-based-code-editor/
 4) Admin Panel with admin user and password of choice
    • List of User Profiles and stats like number of attempts, fail/success ratio
    • Detail view shows profile with list of attempted tests, code input/output

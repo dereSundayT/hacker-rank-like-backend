@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { AdminModule } from './admin/admin.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
+import { TestManagementModule } from './test-management/test-management.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PrismaModule } from './prisma/prisma.module';
     AuthModule,
     UserModule,
     AdminModule,
+    TestManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],

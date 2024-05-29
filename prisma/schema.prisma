@@ -13,6 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model ErrorLog {
+  id         Int      @id @default(autoincrement())
+  title      String?  @db.LongText
+  message    String?  @db.LongText
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  /// table name
+  @@map("error_logs")
+}
+
 /// users table to account for both admin and noraml user
 model User {
   id          Int     @id @default(autoincrement())
@@ -30,16 +41,55 @@ model User {
   delete_at  DateTime?
 
   // realtionship
+  user_tests UserTest[]
+
   @@map(name: "users")
 }
 
-model ErrorLog {
-  id         Int      @id @default(autoincrement())
-  title      String?  @db.LongText
-  message    String?  @db.LongText
+model Test {
+  id Int @id @default(autoincrement())
+
+  question    String @db.MediumText
+  description String @db.LongText
+
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  //
+  user_tests UserTest[]
+
+  @@map("tests")
+}
+
+model UserTest {
+  id                Int              @id @default(autoincrement())
+  test_id           Int
+  user_id           Int
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
+  // relationshp
+  user              User             @relation(fields: [user_id], references: [id])
+  test              Test             @relation(fields: [test_id], references: [id])
+  user_test_details UserTestDetail[]
+
+  @@map("user_tests")
+}
+
+///Keep track of trial histories
+model UserTestDetail {
+  id           Int @id @default(autoincrement())
+  user_test_id Int
+
+  status    String
+  is_passed Boolean @default(false)
+
+  user_input  String @db.LongText
+  user_output String @db.LongText
+  result      String @db.LongText
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  // relationshp
+  user_test  UserTest @relation(fields: [user_test_id], references: [id])
 
-  /// table name
-  @@map("error_logs")
+  @@map("user_test_details")
 }
