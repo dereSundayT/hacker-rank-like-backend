@@ -1,5 +1,5 @@
 
-npx prisma migrate dev --name db_init
+Backend Url : https://hacker-rank-like-backend-2uib.onrender.com/api-docs
 
 1 .  used postgres db instead of mysql because of the hosting platformed used only support postgres db
 
@@ -20,7 +20,7 @@ Backend Core Module
     - endpoint to update user profile
   - admin
 
-Frontend
+Frontend Break down
    - profile
         - register
         - login 

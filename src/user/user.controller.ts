@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { UserService } from './user.service';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from 'express';
 import { handleResponse, logError } from '../_utils/helper.utils';
 import { msgs } from '../_utils/msg.utils';
@@ -10,6 +10,7 @@ import { UserModel } from '../_utils/model';
 import { TestManagementService } from '../test-management/test-management.service';
 import { IsUserGuard } from '../auth/guard/is-user.guard';
 
+@ApiTags('users test management')
 @UseGuards(IsUserGuard)
 @UseGuards(AuthGuard)
 @Controller('user')
