@@ -1,7 +1,8 @@
 
 Backend Url : https://hacker-rank-like-backend-2uib.onrender.com/api-docs
 
-Start Command : npm run deploy && npm run start:prod
+- copy .env.example to .env
+- Start Command : npm run deploy && npm run start:prod
 
 1 .  used postgres db instead of mysql because of the hosting platformed used only support postgres db
 
