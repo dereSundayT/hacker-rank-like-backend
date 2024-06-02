@@ -61,10 +61,9 @@ export class AuthService {
           const access_token = await this.jwtService.signAsync(payload);
           //prettier-ignore
           return { data: {access_token}, status: true, message: 'user login successfully' };
-        } else {
-          return { data: null, status: false, message: msgs.invalid_cred };
         }
       }
+      return { data: null, status: false, message: msgs.invalid_cred };
     } catch (e: any) {
       await logError(e);
       return { data: null, status: false, message: msgs.general_err };

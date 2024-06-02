@@ -9,5 +9,19 @@ export interface UserModel {
   email: string;
   first_name: string;
   last_name: string;
-  role: string;
+  user_role: string;
+}
+
+export interface CodeCompilationResp {
+  stdout: any;
+  time: string;
+  memory: number;
+  stderr: any;
+  token: string;
+  compile_output: any;
+  message: any;
+  status: {
+    id: number;
+    description: string;
+  };
 }

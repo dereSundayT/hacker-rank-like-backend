@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Res, UseGuards } from "@nestjs/common";
 import { UserService } from './user.service';
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from 'express';
@@ -9,6 +9,7 @@ import { GetUserDetaillsDecorator } from '../auth/decorators/get-user-detaills.d
 import { UserModel } from '../_utils/model';
 import { TestManagementService } from '../test-management/test-management.service';
 import { IsUserGuard } from '../auth/guard/is-user.guard';
+import { SubmitTestDto } from "../test-management/dto/submit-test.dto";
 
 @ApiTags('users test management')
 @UseGuards(IsUserGuard)
@@ -32,8 +33,33 @@ export class UserController {
     @GetUserDetaillsDecorator() user: UserModel,
   ) {
     try {
+      //get attempted test
       //prettier-ignore
-      const respData = await this.testManagementService.getTestForUserService()
+      const respData = await this.testManagementService.getTestForUserService(user)
+      //prettier-ignore
+      return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
+    } catch (e: any) {
+      await logError(e);
+      return handleResponse(res, null, msgs.general_err, 400, false);
+    }
+  }
+
+  /**
+   * get test details
+   * @param res
+   * @param test_id
+   * @param user
+   */
+  @ApiOperation({ description: 'get test details' })
+  @Get('test/:test_id')
+  async getTestDetails(
+    @Res() res: Response,
+    @Param('test_id') test_id :string,
+    @GetUserDetaillsDecorator() user: UserModel,
+  ) {
+    try {
+      //prettier-ignore
+      const respData = await this.testManagementService.getTestDetailsService(test_id)
       //prettier-ignore
       return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
     } catch (e: any) {
@@ -46,17 +72,21 @@ export class UserController {
   /**
    * submit user test
    * @param res
+   * @param test_id
+   * @param submitTestDto
    * @param user
    */
   @ApiOperation({ description: 'submit user test' })
-  @Post('tests/attempts')
+  @Post('test/:test_id')
   async submitTest(
     @Res() res: Response,
+    @Param('test_id') test_id: string,
+    @Body() submitTestDto: SubmitTestDto,
     @GetUserDetaillsDecorator() user: UserModel,
   ) {
     try {
       //prettier-ignore
-      const respData = await this.testManagementService.getTestForUserService()
+      const respData = await this.testManagementService.submitTestService(user.id,Number(test_id),submitTestDto)
       //prettier-ignore
       return handleResponse(res,respData.data,respData.message,respData.status?200:400,respData.status);
     } catch (e: any) {
@@ -64,8 +94,6 @@ export class UserController {
       return handleResponse(res, null, msgs.general_err, 400, false);
     }
   }
-
-
 
   /**
    * get attempted user test

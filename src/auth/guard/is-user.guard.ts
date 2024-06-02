@@ -7,6 +7,6 @@ export class IsUserGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: UserModel = request.user;
 
-    return user.role === 'user';
+    return user.user_role === 'user';
   }
 }

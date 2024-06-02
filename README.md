@@ -1,5 +1,8 @@
 
 Backend Url : https://hacker-rank-like-backend-2uib.onrender.com/api-docs
+Frontend Url: https://tvz-frontend.onrender.com/
+npx prisma migrate dev --name db_init
+npx prisma db seed
 
 - copy .env.example to .env
 - Start Command : npm run deploy && npm run start:prod

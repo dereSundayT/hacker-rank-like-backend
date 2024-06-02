@@ -31,6 +31,7 @@ CREATE TABLE "tests" (
     "id" SERIAL NOT NULL,
     "question" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "test_category" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -54,9 +55,11 @@ CREATE TABLE "user_test_details" (
     "user_test_id" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "is_passed" BOOLEAN NOT NULL DEFAULT false,
-    "user_input" TEXT NOT NULL,
-    "user_output" TEXT NOT NULL,
-    "result" TEXT NOT NULL,
+    "user_submission" TEXT NOT NULL,
+    "test_token" TEXT NOT NULL,
+    "memory_used" INTEGER NOT NULL,
+    "time_used" INTEGER NOT NULL,
+    "compile_output" JSONB,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 

@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import * as process from 'process';
 import { hashData } from '../src/_utils/helper.utils';
+import { sampleTestData } from './data';
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,7 @@ async function main() {
   await prisma.user.create({
     data: adminUser,
   });
+  await prisma.test.createMany({ data: sampleTestData });
 
   //Create Default Test
   console.log('Done Seeding...');

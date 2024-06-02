@@ -43,8 +43,9 @@ model User {
 model Test {
   id Int @id @default(autoincrement())
 
-  question    String @db.Text
-  description String @db.Text
+  question      String  @db.Text
+  description   String  @db.Text
+  test_category String?
 
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
@@ -58,6 +59,7 @@ model UserTest {
   id                Int              @id @default(autoincrement())
   test_id           Int
   user_id           Int
+  //
   created_at        DateTime         @default(now())
   updated_at        DateTime         @updatedAt
   // relationshp
@@ -65,25 +67,27 @@ model UserTest {
   test              Test             @relation(fields: [test_id], references: [id])
   user_test_details UserTestDetail[]
 
+  //
   @@map("user_tests")
 }
 
 ///Keep track of trial histories
 model UserTestDetail {
-  id           Int @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   user_test_id Int
+  status       String
 
-  status    String
-  is_passed Boolean @default(false)
-
-  user_input  String @db.Text
-  user_output String @db.Text
-  result      String @db.Text
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  is_passed       Boolean  @default(false)
+  user_submission String   @db.Text
+  test_token      String   @db.Text
+  memory_used     Int
+  time_used       Int
+  compile_output  Json?
+  //
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
   // relationshp
-  user_test  UserTest @relation(fields: [user_test_id], references: [id])
+  user_test       UserTest @relation(fields: [user_test_id], references: [id])
 
   @@map("user_test_details")
 }
