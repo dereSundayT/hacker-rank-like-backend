@@ -26,31 +26,47 @@ export class TestManagementService {
           const checkStatusResp = await checkTestSubmissionStatus(submitTestDto.token);
           if (checkStatusResp.status) {
             const complicationResp: CodeCompilationResp = checkStatusResp.data;
-            const userTestData: Prisma.UserTestCreateInput = {
-              user: {
-                connect: {
-                  id: user_id
-                }
-              },
-              test: {
-                connect: {
-                  id: test_id
-                }
-              },
-              user_test_details: {
-                create: {
-                  status: complicationResp.status.description,
-                  is_passed: complicationResp.status.id === 3,
-                  user_submission: submitTestDto.user_submission,
-                  test_token: complicationResp.token,
-                  memory_used: complicationResp.memory,
-                  time_used: Number(complicationResp.time),
-                  compile_output: complicationResp.compile_output
-                }
+            //Check if Test has be completed before
+           const  userTestExists = await this.prismaService.userTest.findFirst({
+              where:{
+                user_id: user_id,
+                test_id: test_id
               }
-            };
-            //prettier-ignore
-            await this.prismaService.userTest.create({ data: userTestData });
+            })
+            if(userTestExists){
+              const testDetails :Prisma.UserTestDetailCreateInput = {
+                status: complicationResp.status.description,
+                is_passed: complicationResp.status.id === 3,
+                user_submission: submitTestDto.user_submission,
+                test_token: complicationResp.token,
+                memory_used: complicationResp.memory,
+                time_used: Number(complicationResp.time),
+                compile_output: complicationResp.compile_output,
+                user_test: { connect: { id: userTestExists.id } }
+              }
+              await this.prismaService.userTestDetail.create({ data:testDetails })
+
+            }else{
+
+              const userTestData: Prisma.UserTestCreateInput = {
+                user: { connect: { id: user_id } },
+                test: { connect: { id: test_id } },
+                user_test_details: {
+                  create: {
+                    status: complicationResp.status.description,
+                    is_passed: complicationResp.status.id === 3,
+                    user_submission: submitTestDto.user_submission,
+                    test_token: complicationResp.token,
+                    memory_used: complicationResp.memory,
+                    time_used: Number(complicationResp.time),
+                    compile_output: complicationResp.compile_output
+                  }
+                }
+              };
+              //prettier-ignore
+              await this.prismaService.userTest.create({ data: userTestData });
+            }
+
             return { status: true, data: null, message: msgs.test_fetched };
           }
           return { status: false, data: null, message: checkStatusResp.message };
