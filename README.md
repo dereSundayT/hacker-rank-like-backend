@@ -1,14 +1,11 @@
-
 Backend Url : https://hacker-rank-like-backend-2uib.onrender.com/api-docs
+Backend Url : https://hacker-rank-like-backend-2uib.onrender.com/api/v1
 Frontend Url: https://tvz-frontend.onrender.com
-npx prisma migrate dev --name db_init
-npx prisma db seed
+
 
 - copy .env.example to .env
 - Start Command : npm run deploy && npm run start:prod
-
 1 .  used postgres db instead of mysql because of the hosting platformed used only support postgres db
-
 # Dependencies Used
    - Dependencies
      - @nestjs/config : 

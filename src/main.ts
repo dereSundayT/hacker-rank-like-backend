@@ -8,7 +8,7 @@ const PORT = process.env.PORT ?? 3000;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   //Cors
-  const allowedOrigins = ['http://localhost:3000'];
+  const allowedOrigins = ['http://localhost:3000','https://tvz-frontend.onrender.com'];
   const corsOptions: CorsOptions = {
     origin: allowedOrigins,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
